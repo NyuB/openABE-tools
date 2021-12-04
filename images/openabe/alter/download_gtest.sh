@@ -10,5 +10,5 @@ GTEST_VERSION=googletest-release-${VERSION}.zip
 GTEST_LINK=https://codeload.github.com/google/googletest/zip/refs/tags/release-${VERSION}
 
 if [[ ! -f ${GTEST_VERSION} ]]; then
-    wget -O ${GTEST_VERSION} ${GTEST_LINK}
+    wget -O ${GTEST_VERSION} ${GTEST_LINK} --no-check-certificate # accept old github certificate
 fi
