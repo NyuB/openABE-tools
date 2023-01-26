@@ -1,4 +1,4 @@
-name: Build Images
+name: CI
 
 on:
   push:
@@ -11,5 +11,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v3
-    - name: Build the Docker image
-      run: docker build -t nyub:openabe-dev images/openabe
+    - name: Build openabe-dev
+      run: docker build -t nyub:openabe-dev images/openabe-dev
+    - name: Build openabe-tool
+      run: docker build -t nyub:openabe-tool images/openabe-tool
