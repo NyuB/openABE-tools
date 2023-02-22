@@ -13,7 +13,18 @@ jobs:
     - uses: actions/checkout@v3
     - name: Build openabe-dev
       run: docker build -t nyub:openabe-dev images/openabe-dev
+    - name: Test openabe-dev
+      run: |
+        mkdir -p images/openabe-dev/tests/googletest/build
+        docker run --rm -v ${PWD}/images/openabe-dev/tests:/tests --workdir /tests nyub:openabe-dev make test
     - name: Build openabe-tool
       run: docker build -t nyub:openabe-tool images/openabe-tool
-    - name: Test openabe-tool
-      run: docker run --rm nyub:openabe-tool oabe_keygen -h 
+    - name: Test openabe-tool Cipher Policy
+      run: |
+        mkdir oabe
+        echo "BRAVO" > oabe/clear.txt
+        docker run -v ${PWD}/oabe:/oabe --workdir /oabe --rm nyub:openabe-tool "oabe_setup -v -s CP -p test"
+        docker run -v ${PWD}/oabe:/oabe --workdir /oabe --rm nyub:openabe-tool 'oabe_keygen -s CP -p test -i "Git|Test" -o testCP'
+        docker run -v ${PWD}/oabe:/oabe --workdir /oabe --rm nyub:openabe-tool 'oabe_enc -s CP -p test -e "(Test or Debug)" -i clear.txt -o cipher.cpabe'
+        docker run -v ${PWD}/oabe:/oabe --workdir /oabe --rm nyub:openabe-tool "oabe_dec -s CP -p test -k testCP.key -i cipher.cpabe -o deciphered.txt"
+        cmp -s oabe/deciphered.txt oabe/clear.txt

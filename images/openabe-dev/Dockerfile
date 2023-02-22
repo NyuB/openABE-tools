@@ -19,4 +19,4 @@ RUN cp alter/download_gtest.sh /oabe/openabe-1.0/deps/gtest/download_gtest.sh &&
 	bash -c ". ./env && make && make test" && \
     bash -c ". ./env && make install" && \
     rm -rf /oabe/*
-ENTRYPOINT ["/bin/bash"]
+ENTRYPOINT ["/bin/bash", "-c"]
