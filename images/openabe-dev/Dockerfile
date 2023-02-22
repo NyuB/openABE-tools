@@ -14,7 +14,7 @@ FROM oabe_download
 WORKDIR /oabe
 ADD alter/ alter/
 RUN cp alter/download_gtest.sh /oabe/openabe-1.0/deps/gtest/download_gtest.sh && \
-    cp alter/Makefile /oabe/openabe-1.0/Makefile&& \
+    cp alter/Makefile /oabe/openabe-1.0/Makefile && \
     cd /oabe/openabe-1.0 && ./deps/install_pkgs.sh && \
 	bash -c ". ./env && make && make test" && \
     bash -c ". ./env && make install" && \
