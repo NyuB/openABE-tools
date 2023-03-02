@@ -12,7 +12,12 @@ jobs:
     steps:
     - uses: actions/checkout@v3
     - name: Build openabe-dev
-      run: docker build -t nyub:openabe-dev images/openabe-dev
+      uses: nyub/self-docker-action@v1.0
+      with:
+        build-dir: images/openabe-dev
+        image-name: nyub
+        image-tag: openabe-dev
+        
     - name: Test openabe-dev
       run: |
         mkdir -p images/openabe-dev/tests/googletest/build
