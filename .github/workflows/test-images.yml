@@ -11,6 +11,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v3
+    
     - name: Build openabe-dev
       uses: NyuB/self-docker-action@1.0
       with:
@@ -22,8 +23,14 @@ jobs:
       run: |
         mkdir -p images/openabe-dev/tests/googletest/build
         docker run --rm -v ${PWD}/images/openabe-dev/tests:/tests --workdir /tests nyub:openabe-dev make test
+    
     - name: Build openabe-tool
-      run: docker build -t nyub:openabe-tool images/openabe-tool
+      uses: NyuB/self-docker-action@1.0
+      with:
+        build-dir: images/openabe-tool
+        image-name: nyub
+        image-tag: openabe-tool
+    
     - name: Test openabe-tool Cipher Policy
       run: |
         mkdir oabe
